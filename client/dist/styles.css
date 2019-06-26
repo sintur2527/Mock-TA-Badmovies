@@ -44,7 +44,7 @@ body,
   min-width: 200px;
 
   padding: 2px;
-  background-color: #d35400;
+  background-color: #56799c;
   z-index: 2;
   text-align: center;
   font-size: 20px;
@@ -53,12 +53,13 @@ body,
 .search > button {
   font-size: 15px;
   padding: 10px;
+  margin: 10px;
 }
 
 .search > select {
   font-size: 15px;
   padding: 10px;
-  width: 175px;
+  width: 100%;
 }
 
 .movies {

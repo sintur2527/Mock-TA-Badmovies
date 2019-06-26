@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 var request = require('request');
 const app = express();
 const axios = require('axios');
-// const { API_KEY } = require('../config/keys.js');
+const { save, retrieve, db } = require('../db/mongodb');
 
 // Sign up and get your moviedb API key here:
 // https://www.themoviedb.org/account/signup
@@ -26,11 +26,6 @@ if (process.env.API_KEY) {
 }
 
 app.get('/genres', function(req, res) {
-  // make an axios request to get the official list of genres from themoviedb
-
-  // use this endpoint. you will need your API key from signup: https://api.themoviedb.org/3/genre/movie/list
-
-  // send back
   axios
     .get('https://api.themoviedb.org/3/genre/movie/list', {
       params: {
@@ -46,8 +41,6 @@ app.get('/genres', function(req, res) {
 });
 
 app.get('/search/:id', function(req, res) {
-  // use this endpoint to search for movies by genres (using API key): https://api.themoviedb.org/3/discover/movie
-  // and sort them by votes (worst first) using the search parameters in themoviedb API
   const { id } = req.params;
 
   axios
@@ -68,6 +61,7 @@ app.get('/search/:id', function(req, res) {
 
 app.post('/save', function(req, res) {
   //save movie as favorite
+  console.log('req', req.body);
 });
 
 app.post('/delete', function(req, res) {

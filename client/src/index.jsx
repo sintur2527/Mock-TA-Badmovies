@@ -9,15 +9,16 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: [{ deway: 'movies' }],
-      favorites: [{ deway: 'favorites' }],
+      movies: [],
+      favorites: [],
       showFaves: false,
       currentGenre: 28,
     };
 
-    // you might have to do something important here!
     this.setGenre = this.setGenre.bind(this);
     this.getMovies = this.getMovies.bind(this);
+    this.saveMovie = this.saveMovie.bind(this);
+    this.deleteMovie = this.deleteMovie.bind(this);
   }
 
   componentDidMount() {
@@ -25,16 +26,22 @@ class App extends React.Component {
   }
 
   getMovies(genre) {
-    // make an axios request to your server on the GET SEARCH endpoint
-    Axios.get(`/search/${genre}`).then(({ data }) => {
-      this.setState({
-        movies: data,
+    Axios.get(`/search/${genre}`)
+      .then(({ data }) => {
+        this.setState({
+          movies: data,
+        });
+      })
+      .catch(err => {
+        console.error(err);
       });
-    });
   }
 
-  saveMovie() {
-    // same as above but do something diff
+  saveMovie(event) {
+    let movie = Object.assign({}, event.currentTarget.dataset);
+    Axios.post('/save', movie).then(() => {
+      console.log('success');
+    });
   }
 
   deleteMovie() {
@@ -76,6 +83,7 @@ class App extends React.Component {
               this.state.showFaves ? this.state.favorites : this.state.movies
             }
             showFaves={this.state.showFaves}
+            handleClick={this.saveMovie}
           />
         </div>
       </div>

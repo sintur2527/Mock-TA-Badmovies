@@ -15,7 +15,6 @@ class Search extends React.Component {
   }
 
   getGenres() {
-    //make an axios request in this component to get the list of genres from your endpoint GET GENRES
     Axios.get('/genres').then(({ data }) => {
       this.setState({
         genres: data,
@@ -34,9 +33,6 @@ class Search extends React.Component {
         </button>
         <br />
         <br />
-
-        {/* Make the select options dynamic from genres !!! */}
-        {/* How can you tell which option has been selected from here? */}
 
         <select
           value={this.props.currentGenre}
