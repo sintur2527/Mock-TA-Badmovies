@@ -12,7 +12,7 @@ class App extends React.Component {
       movies: [{ deway: 'movies' }],
       favorites: [{ deway: 'favorites' }],
       showFaves: false,
-      currentGenre: 'Action',
+      currentGenre: 28,
     };
 
     // you might have to do something important here!
@@ -21,13 +21,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getMovies();
+    this.getMovies(this.state.currentGenre);
   }
 
-  getMovies() {
+  getMovies(genre) {
     // make an axios request to your server on the GET SEARCH endpoint
-    Axios.get('/search').then(({ data }) => {
-      console.log('data', data);
+    Axios.get(`/search/${genre}`).then(({ data }) => {
       this.setState({
         movies: data,
       });
@@ -43,8 +42,9 @@ class App extends React.Component {
   }
 
   setGenre(event) {
+    let id = Number(event.target.value);
     this.setState({
-      currentGenre: event.target.value,
+      currentGenre: id,
     });
   }
 
@@ -67,6 +67,9 @@ class App extends React.Component {
             swapFavorites={this.swapFavorites}
             showFaves={this.state.showFaves}
             handleChange={this.setGenre}
+            handleClick={() => {
+              this.getMovies(this.state.currentGenre);
+            }}
           />
           <Movies
             movies={

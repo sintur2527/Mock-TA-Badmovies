@@ -45,14 +45,17 @@ app.get('/genres', function(req, res) {
     });
 });
 
-app.get('/search', function(req, res) {
+app.get('/search/:id', function(req, res) {
   // use this endpoint to search for movies by genres (using API key): https://api.themoviedb.org/3/discover/movie
   // and sort them by votes (worst first) using the search parameters in themoviedb API
+  const { id } = req.params;
+
   axios
     .get('https://api.themoviedb.org/3/discover/movie', {
       params: {
         api_key: api,
         sort_by: 'vote_average.asc',
+        with_genres: id,
       },
     })
     .then(({ data }) => {

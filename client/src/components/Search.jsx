@@ -42,7 +42,7 @@ class Search extends React.Component {
           value={this.props.currentGenre}
           onChange={this.props.handleChange}>
           {this.state.genres.map(genre => (
-            <option value={genre.name} key={genre.id}>
+            <option value={genre.id} key={genre.id}>
               {genre.name}
             </option>
           ))}
@@ -50,7 +50,7 @@ class Search extends React.Component {
         <br />
         <br />
 
-        <button>Search</button>
+        <button onClick={this.props.handleClick}>Search</button>
       </div>
     );
   }
