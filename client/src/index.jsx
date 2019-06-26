@@ -12,9 +12,11 @@ class App extends React.Component {
       movies: [{ deway: 'movies' }],
       favorites: [{ deway: 'favorites' }],
       showFaves: false,
+      currentGenre: 'Action',
     };
 
     // you might have to do something important here!
+    this.setGenre = this.setGenre.bind(this);
   }
 
   getMovies() {
@@ -27,6 +29,12 @@ class App extends React.Component {
 
   deleteMovie() {
     // same as above but do something diff
+  }
+
+  setGenre(event) {
+    this.setState({
+      currentGenre: event.target.value,
+    });
   }
 
   swapFavorites() {
@@ -47,6 +55,7 @@ class App extends React.Component {
           <Search
             swapFavorites={this.swapFavorites}
             showFaves={this.state.showFaves}
+            handleChange={this.setGenre}
           />
           <Movies
             movies={
