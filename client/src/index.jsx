@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+import Axios from 'axios';
 // import AnyComponent from './components/filename.jsx'
 import Search from './components/Search.jsx';
 import Movies from './components/Movies.jsx';
@@ -17,10 +17,21 @@ class App extends React.Component {
 
     // you might have to do something important here!
     this.setGenre = this.setGenre.bind(this);
+    this.getMovies = this.getMovies.bind(this);
+  }
+
+  componentDidMount() {
+    this.getMovies();
   }
 
   getMovies() {
     // make an axios request to your server on the GET SEARCH endpoint
+    Axios.get('/search').then(({ data }) => {
+      console.log('data', data);
+      this.setState({
+        movies: data,
+      });
+    });
   }
 
   saveMovie() {
