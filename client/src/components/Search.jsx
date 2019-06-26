@@ -23,12 +23,6 @@ class Search extends React.Component {
     });
   }
 
-  setGenre(event) {
-    this.setState({
-      currentGenre: event.target.value,
-    });
-  }
-
   render() {
     return (
       <div className="search">
