@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 var request = require('request');
 const app = express();
 const axios = require('axios');
-const { save, retrieve, db } = require('../db/mongodb');
+const { save, retrieve, remove } = require('../db/mongodb');
 
 // Sign up and get your moviedb API key here:
 // https://www.themoviedb.org/account/signup
@@ -62,10 +62,26 @@ app.get('/search/:id', function(req, res) {
 app.post('/save', function(req, res) {
   //save movie as favorite
   console.log('req', req.body);
+  save(req.body).catch(err => {
+    res.sendStatus(500);
+  });
 });
 
 app.post('/delete', function(req, res) {
   //remove movie from favorites
+  remove(req.body).catch(err => {
+    res.sendStatus(500);
+  });
+});
+
+app.get('/faves', function(req, res) {
+  retrieve()
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
 });
 
 //OPTION 2: Use Express Router

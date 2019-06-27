@@ -19,10 +19,13 @@ class App extends React.Component {
     this.getMovies = this.getMovies.bind(this);
     this.saveMovie = this.saveMovie.bind(this);
     this.deleteMovie = this.deleteMovie.bind(this);
+    this.swapFavorites = this.swapFavorites.bind(this);
+    this.getFaves = this.getFaves.bind(this);
   }
 
   componentDidMount() {
     this.getMovies(this.state.currentGenre);
+    this.getFaves();
   }
 
   getMovies(genre) {
@@ -37,15 +40,34 @@ class App extends React.Component {
       });
   }
 
-  saveMovie(event) {
-    let movie = Object.assign({}, event.currentTarget.dataset);
-    Axios.post('/save', movie).then(() => {
-      console.log('success');
+  getFaves() {
+    Axios.get('/faves').then(({ data }) => {
+      this.setState({
+        favorites: data,
+      });
     });
   }
 
-  deleteMovie() {
-    // same as above but do something diff
+  saveMovie(event) {
+    let movie = Object.assign({}, event.currentTarget.dataset);
+    Axios.post('/save', movie)
+      .then(() => {
+        this.swapFavorites();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  deleteMovie(event) {
+    let movie = Object.assign({}, event.currentTarget.dataset);
+    Axios.post('/delete', movie)
+      .then(() => {
+        this.swapFavorites();
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   setGenre(event) {
@@ -56,7 +78,6 @@ class App extends React.Component {
   }
 
   swapFavorites() {
-    //dont touch
     this.setState({
       showFaves: !this.state.showFaves,
     });
@@ -83,7 +104,9 @@ class App extends React.Component {
               this.state.showFaves ? this.state.favorites : this.state.movies
             }
             showFaves={this.state.showFaves}
-            handleClick={this.saveMovie}
+            handleClick={
+              this.state.showFaves ? this.deleteMovie : this.saveMovie
+            }
           />
         </div>
       </div>

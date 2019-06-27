@@ -32,6 +32,11 @@ let retrieve = () => {
   return Movie.find().exec();
 };
 
+let remove = movie => {
+  return Movie.deleteOne(movie);
+};
+
 module.exports.db = db;
 module.exports.save = save;
 module.exports.retrieve = retrieve;
+module.exports.remove = remove;
